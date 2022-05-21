@@ -1,0 +1,19 @@
+#!/usr/bin/python
+import script_utils as su
+
+pw = su.pw_dump()
+
+default_metadata = [item["metadata"] for item in pw if item["type"] == "PipeWire:Interface:Metadata" and item["props"]["metadata.name"] == "default"]
+
+default_source_name = list(filter(lambda e: e["key"] == "default.configured.audio.source", default_metadata[0]))[0]['value']['name']
+
+
+default_sink_name = list(filter(lambda e: e["key"] == "default.configured.audio.sink", default_metadata[0]))[0]['value']['name']
+
+
+default_source = [(item['id'], item['info']['props']['node.description']) for item in pw if item['type'] == "PipeWire:Interface:Node" and item['info']['props']['node.name'] == default_source_name][0]
+
+default_sink = [(item['id'], item['info']['props']['node.description']) for item in pw if item['type'] == "PipeWire:Interface:Node" and item['info']['props']['node.name'] == default_sink_name][0]
+
+print("Default Source:\t%s. %s" % (default_source[0], default_source[1]))
+print("Default Sink:\t%s. %s" % (default_sink[0], default_sink[1]))

@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+setxkbmap $(localectl list-keymaps | rofi -dmenu)
+

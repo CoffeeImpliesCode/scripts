@@ -1,0 +1,21 @@
+#!/usr/bin/python
+import script_utils as su
+
+pw = su.pw_dump()
+
+sources = {}
+for item in pw:
+    try:
+        if item['info']['props']['media.class'] == "Audio/Source":
+            sources[item['info']['props']['node.description']] =  item['id']
+    except KeyError:
+        pass
+
+
+
+selection = su.rofi_menu("Choose Source:", ";".join(list(sources.keys())))
+new_id = sources[selection.strip()]
+
+su.pw_set_default(new_id)
+
+

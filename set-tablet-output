@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+
+outputs=$(xrandr -q | grep " connected" | awk '{print $1}')
+echo $outputs
+
+choices="Screen $outputs"
+selection=$(echo $choices | sed 's/\s\+/\n/g' | rofi -dmenu -p "Output:")
+
+
+case $selection in
+	"Screen") 
+		dpy=$outputs;;
+	*)
+		dpy=$selection;;
+esac
+
+echo $dpy
+
+xinput map-to-output $(xinput list --id-only "UGTABLET 10 inch PenTablet Mouse") $dpy
+xinput map-to-output $(xinput list --id-only "UGTABLET 10 inch PenTablet Pen (0)") $dpy
+# xinput map-to-output $(xinput list --id-only "UGTABLET 10 inch PenTablet Eraser (0)") $dpy
+
+
